@@ -25,5 +25,8 @@ func SetupRoutes() *gin.Engine {
     // Update an user by ID
     router.PUT("/api/user/:id", middleware.JWTMiddleware(), controllers.UpdateUserByID)
 
+    // Delete an user by ID
+    router.DELETE("/api/user/:id", middleware.JWTMiddleware(), controllers.DeleteUserByID)
+
 	return router
 }

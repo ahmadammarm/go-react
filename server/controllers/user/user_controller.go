@@ -154,3 +154,32 @@ func UpdateUserByID(context *gin.Context) {
         },
     })
 }
+
+func DeleteUserByID(context *gin.Context) {
+    id := context.Param("id")
+    var user models.User
+
+    if err := config.Database.First(&user, id).Error; err != nil {
+        context.JSON(http.StatusNotFound, pkg.ErrorResponse{
+            Success: false,
+            Message: "User not found",
+            Errors:  helpers.TranslateErrorMessage(err),
+        })
+        return
+    }
+
+    if err := config.Database.Delete(&user).Error; err != nil {
+        context.JSON(http.StatusInternalServerError, pkg.ErrorResponse{
+            Success: false,
+            Message: "Failed to delete user",
+            Errors:  helpers.TranslateErrorMessage(err),
+        })
+        return
+    }
+
+    context.JSON(http.StatusOK, pkg.SuccessResponse{
+        Success: true,
+        Message: "User with the ID " + id + " deleted successfully",
+        Data:    nil,
+    })
+}
