@@ -17,6 +17,14 @@ type UserCreateRequest struct {
 	Password string `json:"password" binding:"required"`
 }
 
+type UserCreateResponse struct {
+	Id        uint   `json:"id"`
+	Username  string `json:"username"`
+	Email     string `json:"email"`
+	CreatedAt string `json:"created_at"`
+	UpdatedAt string `json:"updated_at"`
+}
+
 type UserUpdateRequest struct {
 	Name     string `json:"name" binding:"required"`
 	Username string `json:"username" binding:"required" gorm:"unique;not null"`
