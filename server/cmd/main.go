@@ -9,6 +9,8 @@ func main() {
 
     config.LoadEnv()
 
+    config.ConnectDatabase()
+
     router := gin.Default()
 
     router.GET("/", func(context *gin.Context) {
@@ -23,5 +25,5 @@ func main() {
         })
     })
 
-    router.Run(":" + config.GetPort("APP_PORT", "8080"))
+    router.Run(":" + config.GetEnv("APP_PORT"))
 }
