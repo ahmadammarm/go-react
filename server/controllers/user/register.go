@@ -15,12 +15,16 @@ func RegisterUser(context *gin.Context) {
 	var request = dto.UserCreateRequest{}
 
 	if err := context.ShouldBindJSON(&request); err != nil {
-		context.JSON(http.StatusUnprocessableEntity, pkg.NewErrorResponse("Invalid request data", map[string]string{"error": err.Error()}))
+		context.JSON(http.StatusUnprocessableEntity, pkg.ErrorResponse{
+			Success: false,
+			Message: "Validastion Errors",
+			Errors:  helpers.TranslateErrorMessage(err),
+		})
 		return
 	}
 
 	user := models.User{
-        Name:     request.Name,
+		Name:     request.Name,
 		Username: request.Username,
 		Email:    request.Email,
 		Password: helpers.HashPassword(request.Password),
@@ -28,19 +32,31 @@ func RegisterUser(context *gin.Context) {
 
 	if err := config.Database.Create(&user).Error; err != nil {
 		if helpers.IsDuplicateEntryError(err) {
-			context.JSON(http.StatusConflict, pkg.NewErrorResponse("User already exists", map[string]string{"error": "Username or email already exists"}))
+			context.JSON(http.StatusConflict, pkg.ErrorResponse{
+				Success: false,
+				Message: "Duplicate entry error",
+				Errors:  helpers.TranslateErrorMessage(err),
+			})
 		} else {
-			context.JSON(http.StatusInternalServerError, pkg.NewErrorResponse("Failed to create user", map[string]string{"error": err.Error()}))
+			context.JSON(http.StatusInternalServerError, pkg.ErrorResponse{
+				Success: false,
+				Message: "Failed to register user",
+				Errors:  helpers.TranslateErrorMessage(err),
+			})
 		}
 		return
 	}
 
-	context.JSON(http.StatusCreated, pkg.NewSuccessResponse("User created successfully", dto.UserCreateResponse{
-		Id:        uint(user.Id),
-		Name:      user.Name,
-		Username:  user.Username,
-		Email:     user.Email,
-		CreatedAt: user.CreatedAt.Format("2006-01-02 15:04:05"),
-		UpdatedAt: user.UpdatedAt.Format("2006-01-02 15:04:05"),
-	}))
+	context.JSON(http.StatusCreated, pkg.SuccessResponse{
+		Success: true,
+		Message: "User created successfully",
+		Data: dto.UserResponse{
+			Id:        uint(user.Id),
+			Name:      user.Name,
+			Username:  user.Username,
+			Email:     user.Email,
+			CreatedAt: user.CreatedAt.Format("2006-01-02 15:04:05"),
+			UpdatedAt: user.UpdatedAt.Format("2006-01-02 15:04:05"),
+		},
+	})
 }
