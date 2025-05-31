@@ -11,5 +11,8 @@ func SetupRoutes() *gin.Engine {
 	router.POST("/api/register", controllers.RegisterUser)
     router.POST("/api/login", controllers.LoginUser)
 
+    // Get all users
+    router.GET("/api/users", controllers.UserList)
+
 	return router
 }
