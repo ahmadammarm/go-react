@@ -2,6 +2,7 @@ package routes
 
 import (
 	controllers "github.com/ahmadammarm/go-react/server/controllers/user"
+	"github.com/ahmadammarm/go-react/server/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,7 +13,7 @@ func SetupRoutes() *gin.Engine {
     router.POST("/api/login", controllers.LoginUser)
 
     // Get all users
-    router.GET("/api/users", controllers.UserList)
+    router.GET("/api/users", middleware.JWTMiddleware(), controllers.UserList)
 
 	return router
 }
