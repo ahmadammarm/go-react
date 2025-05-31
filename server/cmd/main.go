@@ -1,7 +1,8 @@
 package main
 
 import (
-    "github.com/gin-gonic/gin"
+	"github.com/ahmadammarm/go-react/server/config"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -19,5 +20,5 @@ func main() {
         })
     })
 
-    router.Run(":8080")
+    router.Run(":" + config.GetPort("APP_PORT", "8080"))
 }
