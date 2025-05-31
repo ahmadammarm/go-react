@@ -1,8 +1,8 @@
 package routes
 
 import (
+	"github.com/ahmadammarm/go-react/server/controllers/auth"
 	controllers "github.com/ahmadammarm/go-react/server/controllers/user"
-	"github.com/ahmadammarm/go-react/server/controllers/user/auth"
 	"github.com/ahmadammarm/go-react/server/middleware"
 	"github.com/gin-gonic/gin"
 )
