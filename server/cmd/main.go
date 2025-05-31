@@ -6,6 +6,9 @@ import (
 )
 
 func main() {
+
+    config.LoadEnv()
+
     router := gin.Default()
 
     router.GET("/", func(context *gin.Context) {
