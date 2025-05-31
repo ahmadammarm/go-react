@@ -11,10 +11,10 @@ import { Routes, Route, Navigate } from "react-router";
 import Home from "../views/home/index.tsx";
 
 //import view register
-import Register from "../views/auth/register.tsx";
 
 //import view login
-import Login from "../views/auth/login.tsx";
+import Login from '@/views/auth/login.tsx';
+import Register from '@/views/auth/register.tsx';
 
 export default function AppRoutes() {
 
