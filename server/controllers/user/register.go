@@ -20,6 +20,7 @@ func RegisterUser(context *gin.Context) {
 	}
 
 	user := models.User{
+        Name:     request.Name,
 		Username: request.Username,
 		Email:    request.Email,
 		Password: helpers.HashPassword(request.Password),
@@ -36,6 +37,7 @@ func RegisterUser(context *gin.Context) {
 
 	context.JSON(http.StatusCreated, pkg.NewSuccessResponse("User created successfully", dto.UserCreateResponse{
 		Id:        uint(user.Id),
+		Name:      user.Name,
 		Username:  user.Username,
 		Email:     user.Email,
 		CreatedAt: user.CreatedAt.Format("2006-01-02 15:04:05"),
