@@ -19,8 +19,11 @@ func SetupRoutes() *gin.Engine {
     // Create a new user
     router.POST("/api/user", middleware.JWTMiddleware(), controllers.CreateUser)
 
-    // Get a user by ID
+    // Get an user by ID
     router.GET("/api/user/:id", middleware.JWTMiddleware(), controllers.GetUserByID)
+
+    // Update an user by ID
+    router.PUT("/api/user/:id", middleware.JWTMiddleware(), controllers.UpdateUserByID)
 
 	return router
 }

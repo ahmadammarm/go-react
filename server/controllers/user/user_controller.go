@@ -100,3 +100,57 @@ func GetUserByID(context *gin.Context) {
 		},
 	})
 }
+
+func UpdateUserByID(context *gin.Context) {
+    id := context.Param("id")
+    var user models.User
+
+    if err := config.Database.First(&user, id).Error; err != nil {
+        context.JSON(http.StatusNotFound, pkg.ErrorResponse{
+            Success: false,
+            Message: "User not found",
+            Errors:  helpers.TranslateErrorMessage(err),
+        })
+        return
+    }
+
+    var request dto.UserUpdateRequest
+    if err := context.ShouldBindJSON(&request); err != nil {
+        context.JSON(http.StatusUnprocessableEntity, pkg.ErrorResponse{
+            Success: false,
+            Message: "Validation Errors",
+            Errors:  helpers.TranslateErrorMessage(err),
+        })
+        return
+    }
+
+    user.Name = request.Name
+    user.Username = request.Username
+    user.Email = request.Email
+
+    if request.Password != "" {
+        user.Password = helpers.HashPassword(request.Password)
+    }
+
+    if err := config.Database.Save(&user).Error; err != nil {
+        context.JSON(http.StatusInternalServerError, pkg.ErrorResponse{
+            Success: false,
+            Message: "Failed to update user",
+            Errors:  helpers.TranslateErrorMessage(err),
+        })
+        return
+    }
+
+    context.JSON(http.StatusOK, pkg.SuccessResponse{
+        Success: true,
+        Message: "User updated successfully",
+        Data: dto.UserResponse{
+            Id:        uint(user.Id),
+            Name:      user.Name,
+            Username:  user.Username,
+            Email:     user.Email,
+            CreatedAt: user.CreatedAt.Format("2006-01-02 15:04:05"),
+            UpdatedAt: user.UpdatedAt.Format("2006-01-02 15:04:05"),
+        },
+    })
+}
