@@ -2,7 +2,7 @@
 import { useContext } from 'react';
 
 //import context
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../context/AuthContext.tsx';
 
 //import react router dom
 import { Routes, Route, Navigate } from "react-router";
@@ -11,10 +11,13 @@ import { Routes, Route, Navigate } from "react-router";
 import Home from "../views/home/index.tsx";
 
 //import view register
+import Register from "../views/auth/register.tsx";
 
 //import view login
-import Login from '@/views/auth/login.tsx';
-import Register from '@/views/auth/register.tsx';
+import Login from "../views/auth/login.tsx";
+
+//import view dashboard
+import Dashboard from "../views/admin/dashboard/index.tsx";
 
 export default function AppRoutes() {
 
@@ -37,6 +40,11 @@ export default function AppRoutes() {
             {/* route "/login" */}
             <Route path="/login" element={
                 isAuthenticated ? <Navigate to="/admin/dashboard" replace /> : <Login />
+            } />
+
+            {/* route "/admin/dashboard" */}
+            <Route path="/admin/dashboard" element={
+                isAuthenticated ? <Dashboard /> : <Navigate to="/login" replace />
             } />
         </Routes>
     );
