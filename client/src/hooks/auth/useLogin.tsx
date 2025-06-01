@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import Api from '../../services/api';
 
 interface LoginRequest {
-    username: string;
+    email: string;
     password: string;
 }
 

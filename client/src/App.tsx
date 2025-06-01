@@ -23,13 +23,6 @@ const App = () => {
                     >
                         <span className="navbar-toggler-icon"></span>
                     </button>
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-                            <li className="nav-item">
-                                <a href="https://santrikoding.com" target="_blank" className="nav-link active" aria-current="page">SANTRIKODING.COM</a>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
             </nav>
 
