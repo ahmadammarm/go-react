@@ -19,6 +19,7 @@ import Login from "../views/auth/login.tsx";
 //import view dashboard
 import Dashboard from "../views/admin/dashboard/index.tsx";
 import UsersIndex from '@/views/admin/users/index.tsx';
+import UserCreate from '@/views/admin/users/create.tsx';
 
 export default function AppRoutes() {
 
@@ -49,7 +50,11 @@ export default function AppRoutes() {
             } />
 
             <Route path="/admin/users" element={
-                isAuthenticated ? <UsersIndex /> :<Navigate to ="/login" replace />
+                isAuthenticated ? <UsersIndex /> : <Navigate to="/login" replace />
+            } />
+
+            <Route path="/admin/users/create" element={
+                isAuthenticated ? <UserCreate /> : <Navigate to="/login" replace />
             } />
         </Routes>
     );

@@ -2,7 +2,7 @@ import API from "@/services/api"
 import { useMutation } from "@tanstack/react-query"
 import Cookies from "js-cookie"
 
-export interface UserCreateRequest {
+interface UserCreateRequest {
     name: string
     username: string
     email: string
